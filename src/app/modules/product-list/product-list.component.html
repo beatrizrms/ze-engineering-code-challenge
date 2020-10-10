@@ -1,0 +1,49 @@
+<div id="products">
+    <!-- Error message -->
+    <app-feedback *ngIf="errorMessage" [message]="errorMessage" type="error"></app-feedback>
+
+    <!-- Categories -->
+    <div id="categories" *ngIf="categories && distribuitor">
+        <div class="category" [ngClass]="{'active' : category == cat.id}" *ngFor="let cat of categories"
+            (click)="setCategory(cat)" [attr.alt]="cat.title">
+            {{ cat.title }}
+        </div>
+    </div>
+
+    <!-- Cards: Products -->
+    <div id="product-list" *ngIf="products?.length">
+        <div class="card-prod" *ngFor="let prd of products">
+            <h3 class="title" [attr.alt]="prd.title"> {{prd.title}}</h3>
+
+            <!-- Product info-->
+            <div class="info" *ngFor="let info of prd.productVariants | slice:0:1">
+
+                <div class="imagem" *ngFor="let img of prd.images | slice:0:1">
+                    <img [src]="img.url" />
+                </div>
+                <span class="price" [attr.alt]="info.price"> R$ {{info.price | number: '1.2-2'}}</span>
+            </div>
+
+            <!-- Add/Remove buttons-->
+            <div class="add-remove-prod">
+                <div (click)="addRemToCart(prd, 0)" attr.alt="Remover do carrinho">
+                    <i class="fas fa-minus"></i>
+                </div>
+                <div (click)="addRemToCart(prd, 1)" attr.alt="Adicionar no carrinho">
+                    <i class="fas fa-plus"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Message appear if havent products on the search -->
+    <div *ngIf="products && !products?.length" class="msg-feedback center">
+        <p [attr.alt]="messages.MSG_NO_PRD"> {{messages.MSG_NO_PRD}} </p>
+    </div>
+
+</div>
+
+<!-- Back to top path -->
+<div *ngIf="products?.length" class="scroll-top" (click)="scrollTop()" attr.alt="Voltar ao topo">
+    Voltar ao topo
+</div>

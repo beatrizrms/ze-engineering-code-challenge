@@ -1,0 +1,27 @@
+<form [formGroup]="form">
+    <!-- Zé delivery logo -->
+    <img width="175px" height="56px" src="https://courier-images-web.imgix.net/static/img/logo.png?auto=compress,format&amp;fit=max&amp;w=undefined&amp;h=undefined&amp;dpr=2&amp;fm=png" alt="Logotipo Zé Delivery">
+    
+    <!-- Welcome title -->
+    <h2 class="title center" [attr.alt]="messages.TITLE">    
+        {{messages.TITLE}}
+    </h2>   
+    <!-- Input to fill with addresses typed by user -->
+    <div class="input-address">
+        <i class="fas fa-map-marker-alt"></i>
+        <input formControlName="address" type="text" />
+    </div>
+
+    <!-- List of addresses based on autocomplete query from above input provided by google api -->
+    <ul class="places-list" *ngIf="results?.length">
+        <li *ngFor="let place of results" (click)="getCoordinates(place)" [attr.alt]="place.description">
+            {{place.description}}
+        </li>
+    </ul>
+    
+    <div class="center" *ngIf="address?.value.length > 3 && !results?.length">
+        <span> {{messages.ERROR_NOADDRESS}} </span>
+    </div>
+
+   
+</form>

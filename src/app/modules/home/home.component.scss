@@ -1,0 +1,58 @@
+::ng-deep app-home {
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+    justify-content: center;
+    min-height: calc(100vh - 140px);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+
+    .input-address {
+        width: 90%;
+        font-size: 20px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        display: flex; 
+        align-items: center;
+        padding: 5px;
+        background: #fff;
+
+        i {
+            color: #FFC500;
+            text-shadow: 0 1px 1px #555;
+            padding: 0 5px;
+        }
+
+        input {
+            width: 90%;
+            font-size: 18px;
+            border: none;
+            outline: none;
+        }
+    }
+
+    .places-list {
+        padding: 0;
+        width: 90%;
+        height: 300px;
+        overflow: auto;
+        li {
+            list-style: none;
+            cursor: pointer;
+            padding: 15px 10px;
+            border-bottom: 1px solid #ccc;
+
+            &:hover {
+                background-color: #eee;
+                font-weight: 400;
+            }
+        }
+    }
+
+}

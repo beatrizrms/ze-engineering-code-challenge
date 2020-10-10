@@ -1,0 +1,20 @@
+
+.feedback {
+    border: 1px solid;
+    border-radius: 3px;
+    padding: 8px;
+    margin: 10px 10px;
+    margin-bottom: 30px;
+
+    &.error{
+        background-color: #ff000040;
+        border-color: red;
+        color: #333;
+    }
+
+    &.success {
+        background-color: green;
+        border-color:#0080002e;
+        color: #333;
+    }
+}

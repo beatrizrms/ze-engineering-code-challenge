@@ -41,6 +41,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "lodash"
+            ],
             "outputPath": "dist/ze-engineering-code-challenge",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -105,6 +108,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "ze-engineering-code-challenge"
 }

@@ -1,0 +1,20 @@
+<header>
+    <!-- Zé Delivery Logo-->
+    <img src="/assets/images/small-logo.png" width="40" height="40">
+
+    <!-- Name of site, and the address below-->
+    <p class="header-text"> <span>
+            <span class="semibold" alt="Zé Delivery | Bia">
+                Zé Delivery | </span> Bia
+        </span>
+        <span *ngIf="address" [attr.alt]="address.address_name">
+            {{address.address_name}}
+        </span>
+    </p>
+    <!-- Basket icon with number of products on cart -->
+    <div class="shopping-cart">
+        <i class="fas fa-shopping-basket">
+            <span attr.alt="{{amountItens}} iten(s) no carrinho" [ngClass]="{'highlight' :  amountItens}" class="amount">{{amountItens}}</span>
+        </i>
+    </div>
+</header>
