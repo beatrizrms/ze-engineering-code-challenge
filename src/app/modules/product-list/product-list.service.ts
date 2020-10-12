@@ -37,7 +37,7 @@ export class ProductListService {
         if (result.data) {
           resolve(<GraphQLResponse<Categories>>result);
         } else {
-          reject(result)
+          reject(new Error("error"))
         }
 
       });
@@ -63,7 +63,7 @@ export class ProductListService {
         if (result.data) {
           resolve(<GraphQLResponse<Distribuitors>>result);
         } else {
-          reject(result)
+          reject(new Error("error"))
         }
       });
     });
@@ -78,8 +78,7 @@ export class ProductListService {
   getProducts(id: string, search: string, category: string): Promise<GraphQLResponse<Products> | ErrorGraphQLResponse> {
     return new Promise((resolve, reject) => {
       this.apollo.watchQuery({
-        query: Queries.products
-        ,
+        query: Queries.products,
         variables:
         {
           "id": id,
@@ -90,7 +89,7 @@ export class ProductListService {
         if (result.data) {
           resolve(<GraphQLResponse<Products>>result);
         } else {
-          reject(result)
+          reject(new Error("error"))
         }
       });
     });

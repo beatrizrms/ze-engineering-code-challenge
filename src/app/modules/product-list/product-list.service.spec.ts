@@ -44,7 +44,7 @@ describe('ProductListService', () => {
             expect(apolloMock.watchQuery).toBeCalled();
         });
     });
-
+    
     describe('Distribuitor - ', () => {
 
         beforeEach(async(() => {
@@ -53,6 +53,17 @@ describe('ProductListService', () => {
 
         test('Testing findDistributor', () => {
             productListService.findDistributor(PlaceMock);
+            expect(apolloMock.watchQuery).toBeCalled();
+        });
+    });
+
+    describe('Products - ', () => {
+        beforeEach(async(() => {
+            mockApolloSubscribe(MockProducts);
+        }));
+
+        test('Testing getProducts', () => {
+            productListService.getProducts("535", "", "");
             expect(apolloMock.watchQuery).toBeCalled();
         });
     });
