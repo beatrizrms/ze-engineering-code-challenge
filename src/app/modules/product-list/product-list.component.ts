@@ -5,9 +5,9 @@ import { Distribuitor, Distribuitors } from 'src/app/model/Distribuitor';
 import { GraphQLResponse } from 'src/app/model/GraphQL';
 import { Place } from 'src/app/model/Place';
 import { Product, Products } from 'src/app/model/Produts';
-import { CartService } from 'src/app/services/cartService.service';
+import { CartService } from 'src/app/services/cart.service';
 import { SessionStorageService } from 'src/app/services/sessionStorage.service';
-import { ProductListService } from './product-list-service';
+import { ProductListService } from './product-list.service';
 import { ProductMessages } from './product-list.constant';
 
 @Component({
@@ -63,7 +63,13 @@ export class ProductListComponent implements OnInit {
    */
   ngOnInit(): void {
     this.errorMessage = null;
+    this.initRequests();
+  }
 
+  /**
+   * Call two initial requests to get enough info to get available products
+   */
+  initRequests() {
     // Request the categories to ProductService
     this.productListService
       .getAllCategories(this.place)

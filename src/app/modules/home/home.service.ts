@@ -1,5 +1,4 @@
-import { Inject, Injectable } from "@angular/core";
-import { Place } from 'src/app/model/Place';
+import { Injectable } from "@angular/core";
 
 /**
  * Home Service
@@ -9,10 +8,10 @@ import { Place } from 'src/app/model/Place';
 export class HomeService {
 
   // Places auto complete service by google
-  places = new google.maps.places.AutocompleteService();
+  places;
 
   // Geocoder auto complete service by google
-  geocoder = new google.maps.Geocoder();
+  geocoder;
 
 
   /**
@@ -20,6 +19,8 @@ export class HomeService {
    * @param input
    */
   getAutoComplete(input: string): Promise<google.maps.places.QueryAutocompletePrediction[]> {
+
+    this.places = new google.maps.places.AutocompleteService();
 
     return new Promise((resolve, reject) => {
       this.places.getQueryPredictions(
@@ -35,6 +36,9 @@ export class HomeService {
    * @param place 
    */
   getCoordinates(place: google.maps.places.QueryAutocompletePrediction): Promise<google.maps.GeocoderResult[]> {
+    
+    this.geocoder = new google.maps.Geocoder();
+    
     return new Promise((resolve, reject) => {
       this.geocoder.geocode(
         { 'address': place.description },

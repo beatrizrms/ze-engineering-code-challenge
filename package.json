@@ -6,12 +6,14 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "jest",
+    "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:debug": "node --inspect node_modules/.bin/jest --watch --runInBand /Users/beatrizramos/Documents/desafio-ze/ze-engineering-code-challenge/src/app/modules/home/home.component.spec.ts",
     "lint": "ng lint"
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~10.1.4",
+    "@angular/animations": "~10.1.4", 
     "@angular/common": "~10.1.4",
     "@angular/compiler": "~10.1.4",
     "@angular/core": "~10.1.4",

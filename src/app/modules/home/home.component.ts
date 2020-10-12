@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoadingService } from 'src/app/components/loading/loading.service';
-import { Place } from 'src/app/model/Place';
-import { SessionStorageService } from 'src/app/services/sessionStorage.service';
-import { HomeMessages } from './home.constant';
 import { HomeService } from './home.service';
+import { SessionStorageService } from 'src/app/services/sessionStorage.service';
+import { Place } from 'src/app/model/Place';
+import { HomeMessages } from './home.constant';
+
 
 @Component({
   selector: 'app-home',
@@ -89,16 +90,14 @@ export class HomeComponent implements OnInit {
     this.loadingService.showLoading();
     this.homeService.getCoordinates(place).then((result : google.maps.GeocoderResult[]) => {
       if (result.length) {
-        let directionSelected = result[0];
-        let placeSelected = {
-          lat: directionSelected.geometry.location.lat(),
-          lng: directionSelected.geometry.location.lng(),
-          address_name: directionSelected.formatted_address
+        
+        this.placeSelected = {
+          lat: result[0].geometry.location.lat(),
+          lng: result[0].geometry.location.lng(),
+          address_name: result[0].formatted_address
         }
         // Store address on session
-        this.sessionStorageService.setPlace(placeSelected);
-
-        this.placeSelected = placeSelected;
+        this.sessionStorageService.setPlace(this.placeSelected);
         //Navigate to products view
         this.router.navigate(["/products"]);
         

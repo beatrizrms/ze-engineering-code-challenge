@@ -18,7 +18,8 @@
     "lib": [
       "es2018",
       "dom",
-      "esnext.asynciterable"
+      "esnext.asynciterable",
+      "es2020.promise"
     ],
     "allowSyntheticDefaultImports": true,
   }

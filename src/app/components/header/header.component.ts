@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CartItem } from 'src/app/model/CartItem';
 import { Place } from 'src/app/model/Place';
 import { Product } from 'src/app/model/Produts';
-import { CartService } from 'src/app/services/cartService.service';
+import { CartService } from 'src/app/services/cart.service';
 import { SessionStorageService } from 'src/app/services/sessionStorage.service';
 
 @Component({

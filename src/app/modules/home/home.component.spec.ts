@@ -7,105 +7,95 @@ import {
 import { HomeComponent } from './home.component';
 import { initialize } from "@googlemaps/jest-mocks";
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
 import { HomeService } from './home.service';
-
-const HomeServiceMock = {
-    getAutoComplete: jest.fn(() => { 
-        return new Promise((resolve, reject) => {
-            resolve()
-          });
-    }),
-    getCoordinates: jest.fn(() => { 
-        return new Promise((resolve, reject) => {
-            resolve(mockCoordinates)
-          });
-    })
-}
-
-const mockPlace: google.maps.places.QueryAutocompletePrediction = {
-    description: "Rua Américo Brasiliense",
-    matched_substrings: [{ length: 1, offset: 2 }],
-    place_id: "",
-    terms: []
-};
-
-const mockPlaceResult = {
-    lat: 2333,
-    lng: -9878,
-    address_name: "Rua Américo Brasiliense"
-}
-
-const mockCoordinates = [{
-    geometry: {
-        location: {
-            lat: mockPlaceResult.lat,
-            lng: mockPlaceResult.lng
-        }
-    },
-    formatted_address: mockPlaceResult.address_name
-}];
+import { SharedComponentsModule } from 'src/app/components/shared-components.module';
+import { HomeServiceMock, MockCoordinates, MockPlaceAutoComplete, MockPlaceResult, RouterMock } from 'src/mocks';
 
 describe('HomeComponent', () => {
     let component: HomeComponent;
     let fixture: ComponentFixture<HomeComponent>;
-
+    let router: Router;
 
     beforeEach(async(() => {
         initialize();
+
         TestBed.configureTestingModule({
             imports: [
-                RouterTestingModule,
                 FormsModule,
                 ReactiveFormsModule,
+                SharedComponentsModule
             ],
             providers: [
-                { provide: HomeService, useValue: HomeServiceMock }
+                { provide: HomeService, useValue: HomeServiceMock },
+                { provide: Router, useValue: RouterMock }
             ],
             declarations: [HomeComponent]
-        }).compileComponents();
+        });
+        router = TestBed.get(Router);
 
         fixture = TestBed.createComponent(HomeComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     }));
 
-
     test('HomeComponent should exist', () => {
         expect(component).toBeDefined();
     });
 
-    test('Type some text in input - onType Function have to be called', () => {
+    test('Type some text in input - onType Function need to be called', () => {
+        spyOn(component, 'onType');
         const el = fixture.nativeElement.querySelector('input');
         el.value = 'something';
         el.dispatchEvent(new Event('input'));
         fixture.detectChanges();
+
         fixture.whenStable().then(() => {
             expect(component.address.value).toBe('something');
-            // expect(component.results).toBe([{}]);
             expect(component.onType).toHaveBeenCalled();
         });
     });
 
     test('Type some text in input - onType Function havent to be called (One char only)', () => {
+        spyOn(component, 'onType');
         const el = fixture.nativeElement.querySelector('input');
         el.value = 's';
         el.dispatchEvent(new Event('input'));
         fixture.detectChanges();
         fixture.whenStable().then(() => {
             expect(component.address.value).toBe('s');
+            expect(component.onType).not.toHaveBeenCalled();
         });
     });
 
-    /*** ERRORRR */
-    test('Testing get coordinates',  async () => {
-        await component.getCoordinates(mockPlace);
-        expect(component.errorMessage).toBeDefined();
-        // expect(component.placeSelected.address_name).toBeDefined();
+    test('Testing onType function', async () => {
+        HomeServiceMock.getAutoComplete.mockImplementationOnce(() => {
+            return new Promise((resolve, reject) => {
+                resolve(MockPlaceResult);
+            });
+        });
+
+        await component.onType("test address");
+        expect(component.results).toBe(MockPlaceResult);
     });
 
+    test('Testing getCoordinates function', async () => {
+        HomeServiceMock.getCoordinates.mockImplementationOnce(() => {
+            return new Promise((resolve, reject) => {
+                resolve(MockCoordinates);
+            });
+        });
+
+        // RouterMock    
+        spyOn(router, 'navigate');
+        await component.getCoordinates(MockPlaceAutoComplete);
+        expect(component.placeSelected).toEqual(MockPlaceResult);
+        expect(router.navigate).toHaveBeenCalledWith(['/products']);
+
+    });
 
 });
+
 
 
 
